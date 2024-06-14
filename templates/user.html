@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.hellosign.com/public/js/embedded/v2.10.0/embedded.production.min.js"></script>
+</head>
+
+<body>
+
+    <h1>My Document Signer</h1>
+
+    <p>Click on the button to sign the document.</p>
+
+    <button onclick="signDocument()">Sign Docuemnt</button>
+
+    <script>
+        function signDocument() {
+            fetch('/sign_document', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const clientid = data.clientid;
+                    const signUrl = data.signurl;
+                    signDocAPI(clientid, signUrl);
+                })
+                .catch(error => {
+                    console.error('Error signing document:', error);
+                });
+        }
+        function signDocAPI(clientid, signUrl) {
+            const client = new HelloSign();
+            client.open(signUrl, {
+                clientId: clientid,
+                skipDomainVerification: true,
+                testMode: true
+            });
+        }
+    </script>
+</body>
+
+</html>
