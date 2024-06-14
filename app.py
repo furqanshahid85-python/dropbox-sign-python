@@ -38,7 +38,6 @@ configuration = Configuration(
 # initialize the dropbox API clients
 
 api_client = ApiClient(configuration)
-# api_client = DropboxClient(config=configuration)
 signature_request_api = apis.SignatureRequestApi(api_client)
 embeded_api = apis.EmbeddedApi(api_client)
 model_obj = DropboxModel()
@@ -83,7 +82,6 @@ def generate_singing_url():
         file_path=document,
         signing_options=siging_options,
     )
-    print(app.config.get("CLIENT_ID"))
     response = signature_request_api.signature_request_create_embedded(req_data)
     for sig_req in response["signature_request"]["signatures"]:
         signature_request_name = sig_req["signer_name"]
